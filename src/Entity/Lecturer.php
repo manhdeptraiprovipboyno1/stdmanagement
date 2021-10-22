@@ -44,9 +44,15 @@ class Lecturer
      */
     private $subjectList;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=ClassM::class, mappedBy="lecturer")
+     */
+    private $ClassList;
+
     public function __construct()
     {
         $this->subjectList = new ArrayCollection();
+        $this->ClassList = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -127,6 +133,33 @@ class Lecturer
             if ($subjectList->getLecturer() === $this) {
                 $subjectList->setLecturer(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ClassM[]
+     */
+    public function getClassList(): Collection
+    {
+        return $this->ClassList;
+    }
+
+    public function addClassList(ClassM $classList): self
+    {
+        if (!$this->ClassList->contains($classList)) {
+            $this->ClassList[] = $classList;
+            $classList->addLecturer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeClassList(ClassM $classList): self
+    {
+        if ($this->ClassList->removeElement($classList)) {
+            $classList->removeLecturer($this);
         }
 
         return $this;

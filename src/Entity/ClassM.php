@@ -34,9 +34,15 @@ class ClassM
      */
     private $student;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Lecturer::class, inversedBy="ClassList")
+     */
+    private $lecturer;
+
     public function __construct()
     {
         $this->student = new ArrayCollection();
+        $this->lecturer = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -94,6 +100,30 @@ class ClassM
                 $student->setClassList(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Lecturer[]
+     */
+    public function getLecturer(): Collection
+    {
+        return $this->lecturer;
+    }
+
+    public function addLecturer(Lecturer $lecturer): self
+    {
+        if (!$this->lecturer->contains($lecturer)) {
+            $this->lecturer[] = $lecturer;
+        }
+
+        return $this;
+    }
+
+    public function removeLecturer(Lecturer $lecturer): self
+    {
+        $this->lecturer->removeElement($lecturer);
 
         return $this;
     }
