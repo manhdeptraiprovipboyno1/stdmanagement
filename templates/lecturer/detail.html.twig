@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="container col-md-6 mt-3">
+    <h3 class="text-success text-center text-capitalize">LECTURER LIST</h3>
+    <a class="btn btn-outline-success mt-2" href="{{ path('lecturer_add') }}">ADD LECTURER</a>
+    <table class="table table-striped text-center mt-2">
+        <thead>
+            <tr>               
+                <th>Name</th>
+                <th>Avatar</th>
+                <th>Birthday</th>
+                <th>National</th>
+                <th>Class</th>
+                <th>Subject</th>
+                <th>Menu</th>
+
+
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ lecturer.name }}</td>
+                <td>
+                <img src="{{ asset('images/lecturer/'~lecturer.avatar)}}" alt="avatar" width="100",high="100">
+                {{ lecturer.avatar }}
+                </td>
+                <td>{{ lecturer.birthday|date('d/m/Y') }}</td>
+                <td>{{ lecturer.nationality }}</td>
+                <td></td>
+                <td></td>
+                <td>
+                    <a class="btn btn-info" href="{{ path('lecturer_edit', {'id': lecturer.id}) }}">EDIT</a>
+                    <a class="btn btn-warning" href="{{ path('lecturer_delete', {'id': lecturer.id}) }}"
+                    onclick = "return confirm ('Are you sure?')"
+                    >DELETE</a>
+                </td>
+            </tr>
+        </tbody>
+    </table> 
+</div>
+{% endblock %}
