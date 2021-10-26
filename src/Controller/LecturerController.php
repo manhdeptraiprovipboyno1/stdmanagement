@@ -2,10 +2,12 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Entity\Lecturer;
+use App\Form\LecturerType;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Entity\Lecturer;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class LecturerController extends AbstractController
 {
@@ -48,7 +50,7 @@ class LecturerController extends AbstractController
     /**
      * @Route("lecturer/edit/{id}", name="lecturer_edit")
      */
-    public function editLecturer($id) 
+    public function editLecturer(Request $request, $id) 
     {
         $lecturer = $this->getDoctrine()->getRepository(Lecturer::class)->find($id);
         $form = $this->createForm(LecturerType::class,$lecturer);
@@ -56,10 +58,10 @@ class LecturerController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid()){
             $manager = $this->getDoctrine()->getManager();
-            $manager-> persit($lecturer);
+            $manager-> persist($lecturer);
             $manager->flush();
 
-            $this->addFlash('Update lecturer successfully');
+            $this->addFlash('Success','Update lecturer successfully');
             return $this->redirectToRoute("lecturer_index");
         }
 

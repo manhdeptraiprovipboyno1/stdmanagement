@@ -3,12 +3,15 @@
 namespace App\Form;
 
 use App\Entity\Subject;
+use App\Entity\Lecturer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
-use App\Entity\Lecturer;
+
+
 
 class SubjectType extends AbstractType
 {
@@ -17,7 +20,7 @@ class SubjectType extends AbstractType
         $builder
             ->add('name', TextType::class,
             [
-                'label' => "I am handsome lecturer",
+                'label' => "Subject",
                 'required' => true,
             ])
             ->add('abbre', IntegerType::class,

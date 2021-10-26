@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Subject;
 use App\Form\SubjectType;
+use Symfony\Component\HttpFoundation\Request;
 
 
 
@@ -28,7 +29,7 @@ class SubjectController extends AbstractController
     /**
      * @Route("subject/add", name="subject_add")
      */
-    public function addSubject() 
+    public function addSubject(Request $request) 
     {
         $subject = new Subject();
         $form = $this->createForm(SubjectType::class,$subject);
@@ -36,10 +37,10 @@ class SubjectController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid()){
             $manager = $this->getDoctrine()->getManager();
-            $manager-> persit($subject);
+            $manager-> persist($subject);
             $manager->flush();
 
-            $this->addFlash('Add subject successfully');
+            $this->addFlash('Success','Add subject successfully');
             return $this->redirectToRoute("subject_index");
         }
 
@@ -58,14 +59,14 @@ class SubjectController extends AbstractController
     {
         $subject = $this->getDoctrine()->getRepository(Subject::class)->find($id);
         $form = $this->createForm(SubjectType::class,$subject);
-        $form->handleRequest($request);
+        $form->handleRequest($id);
 
         if($form->isSubmitted() && $form->isValid()){
             $manager = $this->getDoctrine()->getManager();
-            $manager-> persit($subject);
+            $manager-> persist($subject);
             $manager->flush();
 
-            $this->addFlash('Update subject successfully');
+            $this->addFlash('Update Success','Update subject successfully');
             return $this->redirectToRoute("subject_index");
         }
 

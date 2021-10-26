@@ -2,16 +2,18 @@
 
 namespace App\Form;
 
+use App\Entity\ClassM;
+use App\Entity\Subject;
 use App\Entity\Lecturer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use App\Entity\ClassM;
-use App\Entity\Subject;
+
 
 class LecturerType extends AbstractType
 {
@@ -20,7 +22,7 @@ class LecturerType extends AbstractType
         $builder
             ->add('name', TextType::class,
             [
-                'label' => "I am handsome lecturer",
+                'label' => "Lecturer",
                 'required' => true,
             ])
             ->add('birthday', DateType::class,
@@ -39,11 +41,11 @@ class LecturerType extends AbstractType
                     "US" => "US",
                 ]
             ])
-            ->add('avatar', FileType::class,
+            /*->add('avatar', FileType::class,
             [
                 'label' => "Avatar",
                 'required' => true,
-            ])
+            ])*/
             ->add('ClassList', EntityType::class,
             [
                 'label' => "Class",
