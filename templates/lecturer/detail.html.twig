@@ -4,7 +4,7 @@
 <div class="container col-md-6 mt-3">
     <h3 class="text-success text-center text-capitalize">LECTURER LIST</h3>
     <a class="btn btn-outline-success mt-2" href="{{ path('lecturer_add') }}">ADD LECTURER</a>
-    <table class="table table-striped text-center mt-2">
+    <table class="table table-striped table-dark">
         <thead>
             <tr>               
                 <th>Name</th>
@@ -22,13 +22,21 @@
             <tr>
                 <td>{{ lecturer.name }}</td>
                 <td>
-                <img src="{{ asset('images/lecturer/'~lecturer.avatar)}}" alt="avatar" width="100",high="100">
+                <img src="{{ asset('image/lecturer/'~lecturer.avatar)}}" alt="avatar" width="100",high="100">
                 {{ lecturer.avatar }}
                 </td>
                 <td>{{ lecturer.birthday|date('d/m/Y') }}</td>
                 <td>{{ lecturer.nationality }}</td>
-                <td></td>
-                <td></td>
+                <td>
+                {% for c in lecturer.classList %}
+                    {{c.name}}
+                {% endfor %}
+                </td>
+                <td>               
+                {% for s in lecturer.subjectList %}
+                    {{s.name}}
+                {% endfor %}
+                </td>
                 <td>
                     <a class="btn btn-info" href="{{ path('lecturer_edit', {'id': lecturer.id}) }}">EDIT</a>
                     <a class="btn btn-warning" href="{{ path('lecturer_delete', {'id': lecturer.id}) }}"

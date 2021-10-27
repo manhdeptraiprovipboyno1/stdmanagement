@@ -13,6 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\HttpFoundation\File\File;
 
 
 class LecturerType extends AbstractType
@@ -41,11 +42,12 @@ class LecturerType extends AbstractType
                     "US" => "US",
                 ]
             ])
-            /*->add('avatar', FileType::class,
+            ->add('avatar', FileType::class,
             [
                 'label' => "Avatar",
-                'required' => true,
-            ])*/
+                'data_class'=> null,
+                'required' => is_null($builder->getData()->getAvatar()),
+            ])
             ->add('ClassList', EntityType::class,
             [
                 'label' => "Class",

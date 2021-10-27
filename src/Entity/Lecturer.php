@@ -2,10 +2,12 @@
 
 namespace App\Entity;
 
-use App\Repository\LecturerRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use App\Entity\ClassM;
+use App\Entity\Subject;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\LecturerRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity(repositoryClass=LecturerRepository::class)
@@ -96,14 +98,17 @@ class Lecturer
         return $this;
     }
 
-    public function getAvatar(): ?string
+    public function getAvatar()
     {
         return $this->avatar;
     }
 
-    public function setAvatar(?string $avatar): self
-    {
-        $this->avatar = $avatar;
+    public function setAvatar( $avatar)
+    {   
+        if($avatar != null){
+            $this->avatar = $avatar;
+        }
+        
 
         return $this;
     }

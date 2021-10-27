@@ -55,11 +55,11 @@ class SubjectController extends AbstractController
     /**
      * @Route("subject/edit/{id}", name="subject_edit")
      */
-    public function editSubject($id) 
+    public function editSubject(Request $request, $id) 
     {
         $subject = $this->getDoctrine()->getRepository(Subject::class)->find($id);
         $form = $this->createForm(SubjectType::class,$subject);
-        $form->handleRequest($id);
+        $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
             $manager = $this->getDoctrine()->getManager();
@@ -76,5 +76,22 @@ class SubjectController extends AbstractController
                 'form' => $form->createView()
             ]
             );
+    }
+
+    /**
+     * @Route("subject/delete/{id}", name="subject_delete")
+     */
+    public function deleteLecturer( $id) 
+    {
+        $subject = $this->getDoctrine()->getRepository(Subject::class)->find($id);
+        if($subject == null){
+            $this->addFlash('Error', 'Not found subject');
+        } else{
+            $manager = $this->getDoctrine()->getManager();
+            $manager->remove($subject);
+            $manager->flush();
+            $this->addFlash('Success', 'Subject was deleted');
+        }
+        return $this->redirectToRoute('subject_index');
     }
 }

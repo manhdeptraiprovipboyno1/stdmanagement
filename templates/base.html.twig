@@ -16,6 +16,17 @@
         {% endblock %}
     </head>
     <body>
+    <div class="container mt-4">
+        <ul class="nav justify-content-center">
+            <li class="nav-item">
+                <h2><a class="nav-link" href="{{ path('lecturer_index')}}">Lecturer</a></h2>
+            </li>
+           
+            <li class="nav-item">
+                <h2><a class="nav-link" href="{{ path('subject_index')}}">Subject</a></h2>
+            </li>
+        </ul>
+    </div>
     <div class ="container mt-3 text-center col-md-5">
         {% for message in app.flashes('Success') %}
             <p class ="text-warning">{{ message }} </p>
@@ -24,5 +35,8 @@
             <p class ="text-warning text-danger">{{ message }} </p>
         {% endfor %}
         {% block body %}{% endblock %}
+        {% block footer %}
+            <p class="text text-secondary">Copyright by Greenwich University</p>
+        {% endblock %}
     </body>
 </html>
