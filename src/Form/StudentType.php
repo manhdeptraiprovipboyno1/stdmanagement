@@ -46,6 +46,14 @@ class StudentType extends AbstractType
                 'data_class'=> null,
                 'required' => is_null($builder->getData()->getAvatar()),
             ])
+            ->add('classList', EntityType::class,
+            [
+                'label' => "Class",
+                'class' => ClassM::class,
+                'choice_label' => "name",  // hiển thị theo lecturer name để chọn
+                'multiple' => false,  // chọn nhiều thì true, chọn 1 là false
+                'expanded' => false, //true: checkbox, false: drop-down List
+            ])
         ;
     }
 

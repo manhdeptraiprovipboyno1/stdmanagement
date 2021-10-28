@@ -1,0 +1,37 @@
+{% extends 'base1.html.twig' %}
+
+{% block body %}
+<div class="container-fluid mt-3">
+    <h2 class="text-success text-center text-capitalize">EDIT STUDENT</h2>
+    <div class="col-md-5"></div>
+        {{form_start(form)}}
+        <div class="form-group">
+            {{ form_label(form.name) }}
+            {{ form_widget(form.name,
+                {
+                    'attr': {'class': 'form-control'}
+                })
+            }}
+        </div>
+        <div class="form-group">
+            {{ form_label(form.floor) }}
+            {{ form_widget(form.floor,
+                {
+                    'attr': {'class': 'form-control'}
+                })
+            }}
+        </div>
+        <div class="form-group">
+            {{ form_label(form.lecturer) }}
+            {{ form_widget(form.lecturer,
+                {
+                    'attr': {'class': 'form-control'}
+                })
+            }}
+        </div>
+        <div class="form-group text-center mt-3">
+            <button class="btn btn-primary" type="submit">EDIT STUDENT</button>
+        </div>
+        {{form_end(form)}}    
+</div>
+{% endblock %}
