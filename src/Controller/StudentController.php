@@ -57,99 +57,113 @@ class StudentController extends AbstractController
         return $this->redirectToRoute('student_index');
     }
 
-    /**
-     * @Route("student/add", name="student_add")
-     */
-    public function addStudent(Request $request) 
-    {
-            $student = new Student();
-            $form = $this->createForm(StudentType::class,$student);
-            $form->handleRequest($request);
-    
-            if($form->isSubmitted() && $form->isValid()){
-                //code xử lý ảnh upload
-                //1. Lấy ảnh từ file upload
-                $image = $student->getAvatar();
-                //2. tạo tên mới cho ảnh => tên file ảnh là duy nhất
-                $imgName = uniqid(); //unique ID
-                //3. lấy phần đuôi (extension) của ảnh
-                $imgExtension = $imgName->guessExtension();
-                //4. gộp tên mới + đuôi tạo thành file ảnh hoàn thiện 
-                $imageName = $imgName . "." . $imgExtension;
-                //5. di chuyển file ảnh upload vào thư mục chỉ định
-                try{
-                    $image->move(
-                        $this->getParameter('student_avatar'), $imageName
-                        //Lưu ý: cần khai báo tham số đường dẫn của thư mục cho student_avatar ở file 
-                        // config/services.yaml
-                    );
-                } catch(FileException $e){
-                    throwException($e);
-                }
-                //6. lưu tên ảnh vào database
-                $student->setAvatar($imageName);
+    #[Route('/student/add', name: 'student_add')]
+    public function addStudentAction(Request $request){
+        $student = new Student();
+        $form = $this->createForm(StudentType::class, $student);
+        $form -> handleRequest($request);
 
-                $manager = $this->getDoctrine()->getManager();
-                $manager-> persist($student);
-                $manager->flush();
-    
-                $this->addFlash('Success','Add student successfully');
-                return $this->redirectToRoute("student_index");
-            }
-    
-            return $this->render(
-                "student/add.html.twig",
-                [
-                    'form' => $form->createView()
-                ]
+        if($form -> isSubmitted() && $form -> isValid()) {
+             //code xử lý ảnh upload
+            //B1: lấy ảnh từ file upload
+            $image = $student->getAvatar();
+            //B2: tạo tên mới cho ảnh => tên file ảnh là duy nhất
+            $imgName = uniqid(); //unique ID
+            //B3: lấy ra phần đuôi (extension) của ảnh
+            $imgExtension = $image -> guessExtension();
+            //B4: gộp tên mới + đuôi tạo thành tên file ảnh hoàn thiện
+            $imageName = $imgName . "." . $imgExtension;
+            //B5: di chuyển file ảnh upload vào thư mục chỉ định
+            try {
+                $image->move(
+                    $this->getParameter('student_avatar'),
+                    $imageName
+                    //Lưu ý: cần khai báo tham số đường dẫn của thư mục
+                    //cho "book_cover" ở file config/services.yaml
                 );
-        
-    }
+            } catch (FileException $e) {
+                throwException($e);
+            }
+            //B6: lưu tên vào database
+            $student->setAvatar($imageName);
 
-    /**
-     * @Route("student/edit/{id}", name="student_edit")
-     */
-    public function editStudent(Request $request, $id) 
-    {
-        $student = $this->getDoctrine()->getRepository(Student::class)->find($id);
-        $form = $this->createForm(StudentType::class,$student);
-        $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()){
-              //code xử lý ảnh upload
-                $file = $form['avatar']->getData();
-                if($file != null){
-                    $image = $student->getAvatar();             
-                $imgName = uniqid(); //unique ID
-                
-                $imgExtension = $imgName->guessExtension();
-                
-                $imageName = $imgName . "." . $imgExtension;
-                
-                try{
-                    $image->move(
-                        $this->getParameter('student_avatar'), $imageName
-                       
-                    );
-                } catch(FileException $e){
-                    throwException($e);
-                }
-                //6. lưu tên ảnh vào database
-                $student->setAvatar($imageName);
-                }
             $manager = $this->getDoctrine()->getManager();
-            $manager-> persist($student);
+
+            $manager->persist($student);
+
             $manager->flush();
 
-            $this->addFlash('Success','Update student successfully');
-            return $this->redirectToRoute("student_index");
+            $this -> addFlash('Success', "Student Added Success!");
+
+            return $this -> redirectToRoute('student_index');
         }
 
-        return $this->render(
-            "student/edit.html.twig",
+        return $this -> render('student/add.html.twig',
+        [
+            'form' => $form->createView(),
+        ]);
+
+    }
+
+    #[Route('student/edit/{id}', name: 'student_edit')]
+    public function editStudentAction($id, Request $request){
+        $student = $this
+             -> getDoctrine() 
+            -> getRepository(Student::class)
+            -> find($id);
+
+        if($student == null){
+            $this -> addFlash('Error', 'Student Not Found !');
+            return $this -> redirectToRoute('student_index');
+        }
+
+        else{
+            $form = $this -> createForm(StudentType::class, $student);
+            $form -> handleRequest($request);
+
+            if ($form -> isSubmitted() && $form -> isValid()) 
+            {
+                // lấy dữ liệu ảnh từ form 
+                $file = $form['avatar'] -> getData();
+
+                if($file != null) {
+                    $image = $student -> getAvatar();
+
+                    //  tạo tên mới cho ảnh => tên file ảnh là duy nhất
+                    $imgName = uniqid();
+
+                    // lấy ra phần đuôi (extension) của ảnh
+                    $imgExtension = $image->guessExtension();
+
+                    $imageName = $imgName . "." . $imgExtension;
+
+                    try {
+                        $image->move(
+                            $this->getParameter('student_avatar'),
+                            $imageName
+                            //Lưu ý: cần khai báo tham số đường dẫn của thư mục
+                            //cho "book_cover" ở file config/services.yaml
+                        );
+                    } catch (FileException $e) {
+                        throwException($e);
+                    }
+                    // lưu tên vào database
+                    $student->setAvatar($imageName);
+                }
+
+                $manager = $this -> getDoctrine()->getManager();
+                $manager->persist($student);
+                $manager->flush();
+
+                $this->addFlash('Success', "Edit Student successfully !");
+                return $this->redirectToRoute("student_index");
+            }
+
+            return $this -> render('student/edit.html.twig',
             [
                 'form' => $form->createView()
-            ]
-            );
+            ]);
+        }
     }
 }
