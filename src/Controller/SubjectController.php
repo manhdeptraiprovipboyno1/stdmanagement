@@ -2,15 +2,18 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Subject;
 use App\Form\SubjectType;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 
-
+/**
+ * @IsGranted("ROLE_USER")
+ */
 
 
 class SubjectController extends AbstractController
@@ -27,6 +30,7 @@ class SubjectController extends AbstractController
     }
 
     /**
+     * @IsGranted("ROLE_ADMIN")
      * @Route("subject/add", name="subject_add")
      */
     public function addSubject(Request $request) 
@@ -53,6 +57,7 @@ class SubjectController extends AbstractController
     }
 
     /**
+     * @IsGranted("ROLE_STAFF")
      * @Route("subject/edit/{id}", name="subject_edit")
      */
     public function editSubject(Request $request, $id) 
@@ -79,6 +84,7 @@ class SubjectController extends AbstractController
     }
 
     /**
+     * @IsGranted("ROLE_ADMIN")
      * @Route("subject/delete/{id}", name="subject_delete")
      */
     public function deleteLecturer( $id) 

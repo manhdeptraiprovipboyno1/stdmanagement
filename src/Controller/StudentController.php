@@ -117,9 +117,9 @@ class StudentController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid()){
               //code xử lý ảnh upload
-                $file = $form['avatar']->getData();
-                if($file != null){
-                    $image = $student->getAvatar();             
+                //$file = $form['avatar']->getData();
+                
+                 $image = $student->getAvatar();             
                 $imgName = uniqid(); //unique ID
                 
                 $imgExtension = $imgName->guessExtension();
@@ -136,7 +136,7 @@ class StudentController extends AbstractController
                 }
                 //6. lưu tên ảnh vào database
                 $student->setAvatar($imageName);
-                }
+                
             $manager = $this->getDoctrine()->getManager();
             $manager-> persist($student);
             $manager->flush();

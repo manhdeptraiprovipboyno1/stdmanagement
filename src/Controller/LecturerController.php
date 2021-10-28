@@ -2,14 +2,19 @@
 
 namespace App\Controller;
 
-use App\Entity\Lecturer;
 use App\Entity\Subject;
+use App\Entity\Lecturer;
 use App\Form\LecturerType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+
+/**
+* @IsGranted("ROLE_USER")
+*/
 
 class LecturerController extends AbstractController
 {
@@ -46,6 +51,7 @@ class LecturerController extends AbstractController
              }
         }
     /**
+     * @IsGranted("ROLE_ADMIN")
      * @Route("lecturer/add", name="lecturer_add")
      */
     public function addLecturer(Request $request) 
@@ -94,6 +100,7 @@ class LecturerController extends AbstractController
         
     }
     /**
+     * @IsGranted("ROLE_STAFF")
      * @Route("lecturer/edit/{id}", name="lecturer_edit")
      */
     public function editLecturer(Request $request, $id) 
@@ -143,6 +150,7 @@ class LecturerController extends AbstractController
     }
 
     /**
+     * @IsGranted("ROLE_ADMIN")
      * @Route("lecturer/delete/{id}", name="lecturer_delete")
      */
     public function deleteLecturer( $id) 
