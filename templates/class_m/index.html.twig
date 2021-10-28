@@ -1,20 +1,32 @@
-{% extends 'base.html.twig' %}
-
-{% block title %}Hello ClassMController!{% endblock %}
+{% extends 'base1.html.twig' %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/xampp/htdocs/SymfonyWeb/stdmanager1/src/Controller/ClassMController.php'|file_link(0) }}">src/Controller/ClassMController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/xampp/htdocs/SymfonyWeb/stdmanager1/templates/class_m/index.html.twig'|file_link(0) }}">templates/class_m/index.html.twig</a></code></li>
-    </ul>
+<div class="container col-md-6 mt-3">
+    <h3 class="text-success text-center text-capitalize">CLASS LIST</h3>
+    <a class="btn btn-outline-success mt-2" href="{{ path('classM_add') }}">ADD NEW CLASS</a>
+        <table class="table table-striped text-center mt-2">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Menu</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for class in classes %}
+            <tr>
+                <td>{{ class.id }}</td>
+                <td>{{ class.name }}</td>
+                <td>
+                    <a class="btn btn-primary" href="{{ path('classM_detail', {'id': class.id}) }}">DETAIL</a>
+                    <a class="btn btn-info" href="{{ path('classM_edit', {'id': class.id}) }}">EDIT</a>
+                    <a class="btn btn-warning" href="{{ path('classM_delete', {'id': class.id}) }}"
+                    onclick="return confirm('Are you sure ????')"
+                    >DELETE</a>
+                </td>
+            </tr>
+        {% endfor %} 
+        </tbody>
+    </table>
 </div>
 {% endblock %}
