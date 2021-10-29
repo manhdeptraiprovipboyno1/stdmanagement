@@ -24,7 +24,7 @@
           background-size: cover;
           {# background-color: #0dcaf0;"> #}
         {% block header %}
-        <div class ="container mt-3 text-center col-md-5">
+        <div class ="container mt-3 text-center col-md-5" style="font-family:Comic Sans MS">
             {% for message in app.flashes('Success') %}
                 <p class ="text-warning">{{ message }} </p>
             {% endfor %}
@@ -35,19 +35,19 @@
         <div class="container mt-4" style="background-color: #0dcaf0;">
             <ul class="nav justify-content-center ">
                 <li class="nav-item active">
-                    <h4><a class="nav-link" style="color:#808080" href="{{ path('lecturer_index')}}">Lecturer</a></h4>
+                    <h4><a class="nav-link" style="color:#808080;font-family:Comic Sans MS" href="{{ path('lecturer_index')}}">Lecturer</a></h4>
                 </li>
                 <li class="nav-item active">
-                    <h4><a class="nav-link" style="color:#808080" href="{{ path('student_index')}}">Student</a></h4>
+                    <h4><a class="nav-link" style="color:#808080;font-family:Comic Sans MS" href="{{ path('student_index')}}">Student</a></h4>
                 </li>
                <li class="nav-item active">
-                    <h4><a class="nav-link" style="color:#808080" href="{{ path('classM_index')}}">Class</a></h4>
+                    <h4><a class="nav-link" style="color:#808080;font-family:Comic Sans MS" href="{{ path('classM_index')}}">Class</a></h4>
                 </li>
                 <li class="nav-item active">
-                    <h4><a class="nav-link" style="color:#808080" href="{{ path('subject_index')}}">Subject</a></h4>
+                    <h4><a class="nav-link" style="color:#808080;font-family:Comic Sans MS" href="{{ path('subject_index')}}">Subject</a></h4>
                 </li>
                 <li class="nav-item active">
-                    <h4><a class="nav-link" style="color:#808080" href="{{ path('app_logout')}}">Logout</a></h4>
+                    <h4><a class="nav-link" style="color:#808080;font-family:Comic Sans MS" href="{{ path('app_logout')}}">Logout</a></h4>
                 </li>
             </ul>
         </div>

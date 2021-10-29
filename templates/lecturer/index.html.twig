@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-<div class="container col-md-6 mt-3">
+<div class="container col-md-6 mt-3" style="font-family:Comic Sans MS">
     <h3 class="text-success text-center text-capitalize">LECTURER LIST</h3>
     {% if is_granted('ROLE_ADMIN')%}
     <a class="btn btn-outline-success mt-2" href="{{ path('lecturer_add') }}">ADD LECTURER</a>
