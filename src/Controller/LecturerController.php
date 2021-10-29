@@ -54,99 +54,112 @@ class LecturerController extends AbstractController
      * @IsGranted("ROLE_ADMIN")
      * @Route("lecturer/add", name="lecturer_add")
      */
-    public function addLecturer(Request $request) 
-    {
-            $lecturer = new Lecturer();
-            $form = $this->createForm(LecturerType::class,$lecturer);
-            $form->handleRequest($request);
-    
-            if($form->isSubmitted() && $form->isValid()){
-                //code xử lý ảnh upload
-                //1. Lấy ảnh từ file upload
-                $image = $book->getAvatar();
-                //2. tạo tên mới cho ảnh => tên file ảnh là duy nhất
-                $imgName = uniqid(); //unique ID
-                //3. lấy phần đuôi (extension) của ảnh
-                $imgExtension = $imgName->guessExtension();
-                //4. gộp tên mới + đuôi tạo thành file ảnh hoàn thiện 
-                $imageName = $imgName . "." . $imgExtension;
-                //5. di chuyển file ảnh upload vào thư mục chỉ định
-                try{
-                    $image->move(
-                        $this->getParameter('lecturer_avatar'), $imageName
-                        //Lưu ý: cần khai báo tham số đường dẫn của thư mục cho lecturer_avatar ở file 
-                        // config/services.yaml
-                    );
-                } catch(FileException $e){
-                    throwException($e);
-                }
-                //6. lưu tên ảnh vào database
-                $lecturer->setAvatar($imageName);
+    public function addLecturer(Request $request){
+        $lecturer = new Lecturer();
+        $form = $this->createForm(LecturerType::class, $lecturer);
+        $form -> handleRequest($request);
 
-                $manager = $this->getDoctrine()->getManager();
-                $manager-> persist($lecturer);
-                $manager->flush();
-    
-                $this->addFlash('Success','Add lecturer successfully');
-                return $this->redirectToRoute("lecturer_index");
-            }
-    
-            return $this->render(
-                "lecturer/add.html.twig",
-                [
-                    'form' => $form->createView()
-                ]
+        if($form -> isSubmitted() && $form -> isValid()) {
+             //code xử lý ảnh upload
+            //B1: lấy ảnh từ file upload
+            $image = $lecturer->getAvatar();
+            //B2: tạo tên mới cho ảnh => tên file ảnh là duy nhất
+            $imgName = uniqid(); //unique ID
+            //B3: lấy ra phần đuôi (extension) của ảnh
+            $imgExtension = $image -> guessExtension();
+            //B4: gộp tên mới + đuôi tạo thành tên file ảnh hoàn thiện
+            $imageName = $imgName . "." . $imgExtension;
+            //B5: di chuyển file ảnh upload vào thư mục chỉ định
+            try {
+                $image->move(
+                    $this->getParameter('lecturer_avatar'),
+                    $imageName
+                    //Lưu ý: cần khai báo tham số đường dẫn của thư mục
+                    //cho "book_cover" ở file config/services.yaml
                 );
-        
+            } catch (FileException $e) {
+                throwException($e);
+            }
+            //B6: lưu tên vào database
+            $lecturer->setAvatar($imageName);
+
+
+            $manager = $this->getDoctrine()->getManager();
+
+            $manager->persist($lecturer);
+
+            $manager->flush();
+
+            $this -> addFlash('Success', "Lecturer Added Success!");
+
+            return $this -> redirectToRoute('lecturer_index');
+        }
+
+        return $this -> render('lecturer/add.html.twig',
+        [
+            'form' => $form->createView(),
+        ]);
+
     }
     /**
      * @IsGranted("ROLE_STAFF")
      * @Route("lecturer/edit/{id}", name="lecturer_edit")
      */
-    public function editLecturer(Request $request, $id) 
-    {
-        $lecturer = $this->getDoctrine()->getRepository(Lecturer::class)->find($id);
-        $form = $this->createForm(LecturerType::class,$lecturer);
-        $form->handleRequest($request);
+    public function editLecturer($id, Request $request){
+        $lecturer = $this-> getDoctrine() -> getRepository(Lecturer::class)-> find($id);
 
-        if($form->isSubmitted() && $form->isValid()){
-              //code xử lý ảnh upload
-                $file = $form['avatar']->getData();
-                if($file != null){
-                    $image = $book->getAvatar();             
-                $imgName = uniqid(); //unique ID
-                
-                $imgExtension = $imgName->guessExtension();
-                
-                $imageName = $imgName . "." . $imgExtension;
-                
-                try{
-                    $image->move(
-                        $this->getParameter('lecturer_avatar'), $imageName
-                       
-                    );
-                } catch(FileException $e){
-                    throwException($e);
-                }
-                //6. lưu tên ảnh vào database
-                $lecturer->setAvatar($imageName);
-                }
-                
-
-            $manager = $this->getDoctrine()->getManager();
-            $manager-> persist($lecturer);
-            $manager->flush();
-
-            $this->addFlash('Success','Update lecturer successfully');
-            return $this->redirectToRoute("lecturer_index");
+        if($lecturer == null){
+            $this -> addFlash('Error', 'Lecturer Not Found !');
+            return $this -> redirectToRoute('lecturer_index');
         }
 
-        return $this->render(
-            "lecturer/edit.html.twig",
+        else{
+            $form = $this -> createForm(LecturerType::class, $lecturer);
+            $form -> handleRequest($request);
+
+            if ($form -> isSubmitted() && $form -> isValid()) 
+            {
+                // lấy dữ liệu ảnh từ form 
+                $file = $form['avatar'] -> getData();
+
+                if($file != null) {
+                    $image = $lecturer -> getAvatar();
+
+                    //  tạo tên mới cho ảnh => tên file ảnh là duy nhất
+                    $imgName = uniqid();
+
+                    // lấy ra phần đuôi (extension) của ảnh
+                    $imgExtension = $image->guessExtension();
+
+                    $imageName = $imgName . "." . $imgExtension;
+
+                    try {
+                        $image->move(
+                            $this->getParameter('lecturer_avatar'),
+                            $imageName
+                            //Lưu ý: cần khai báo tham số đường dẫn của thư mục
+                            //cho "book_cover" ở file config/services.yaml
+                        );
+                    } catch (FileException $e) {
+                        throwException($e);
+                    }
+                    // lưu tên vào database
+                    $lecturer->setAvatar($imageName);
+                }
+
+                $manager = $this -> getDoctrine()->getManager();
+                $manager->persist($lecturer);
+                $manager->flush();
+
+                $this->addFlash('Success', "Edit Lecturer successfully !");
+                return $this->redirectToRoute("lecturer_index");
+            }
+
+            return $this -> render('lecturer/edit.html.twig',
             [
                 'form' => $form->createView()
-            ]
-            );
+            ]);
+        }
     }
 
     /**

@@ -6,8 +6,8 @@
     {% if is_granted('ROLE_ADMIN')%}
     <a class="btn btn-outline-success mt-2" href="{{ path('lecturer_add') }}">ADD LECTURER</a>
     {% endif %}
-        <table class="table table-striped table-dark">
-        <thead>
+        <table class="table table-striped table-responsive-md btn-table">
+        <thead >
             <tr>
                 <th>ID</th>
                 <th>Name</th>
@@ -24,14 +24,16 @@
                 <td>{{ lecturer.name }}</td>
                  
                 
-                <td>               
-                    <a class="btn btn-primary" href="{{ path('lecturer_detail', {'id': lecturer.id}) }}">DETAIL</a>
-                    <a class="btn btn-info" href="{{ path('lecturer_edit', {'id': lecturer.id}) }}">EDIT</a>
+                <td >               
+                    <a class="btn btn-outline-dark" href="{{ path('lecturer_detail', {'id': lecturer.id}) }}">DETAIL</a>
+                    {% if is_granted('ROLE_STAFF')%} 
+                    <a class="btn btn-outline-dark" href="{{ path('lecturer_edit', {'id': lecturer.id}) }}">EDIT</a>
+                    {% endif %}
                     {% if is_granted('ROLE_ADMIN')%} 
-                    <a class="btn btn-warning" href="{{ path('lecturer_delete', {'id': lecturer.id}) }}"
+                    <a class="btn btn-outline-dark" href="{{ path('lecturer_delete', {'id': lecturer.id}) }}"
                     onclick="return confirm('Are you sure ????')"
                     >DELETE</a> 
-                          {% endif %}           
+                     {% endif %}           
                 </td>
                 
                 

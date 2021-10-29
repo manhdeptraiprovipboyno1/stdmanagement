@@ -1,14 +1,19 @@
 <?php
 
 namespace App\Controller;
-use App\Entity\Lecturer;
 use App\Entity\ClassM;
+use App\Entity\Lecturer;
 use App\Form\ClassMType;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+
+/**
+* @IsGranted("ROLE_USER")
+*/
 
 class ClassMController extends AbstractController
 {
@@ -23,6 +28,7 @@ class ClassMController extends AbstractController
         );
     }
 
+    
     #[Route('/class_m/detail/{id}', name: 'classM_detail')]
     public function classMDetail($id)
     {
@@ -42,6 +48,7 @@ class ClassMController extends AbstractController
 
 
     /**
+     * @IsGranted("ROLE_ADMIN")
      * @Route("class_m/delete/{id}", name="classM_delete")
      */
     public function deleteClassM($id)
@@ -59,6 +66,9 @@ class ClassMController extends AbstractController
     }
 
 
+    /**
+    * @IsGranted("ROLE_ADMIN")
+    */
     #[Route('/class_m/add', name : "classM_add")]
     public function addClassAction(Request $request)
     {
@@ -83,6 +93,9 @@ class ClassMController extends AbstractController
     }
 
 
+    /**
+    * @IsGranted("ROLE_STAFF")
+    */
     #[Route('/class_m/update/{id}', name : "classM_edit")]
     public function editClassAction($id, Request $request)
     {

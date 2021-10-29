@@ -1,16 +1,21 @@
 <?php
 
 namespace App\Controller;
-use App\Entity\Student;
 use App\Entity\ClassM;
-use App\Form\StudentType;
-
+use App\Entity\Student;
 use App\Entity\Subject;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\File\File;
+
+use App\Form\StudentType;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+
+/**
+* @IsGranted("ROLE_USER")
+*/
 
 class StudentController extends AbstractController
 {
@@ -41,6 +46,7 @@ class StudentController extends AbstractController
     }
 
     /**
+     * @IsGranted("ROLE_ADMIN")
      * @Route("student/delete/{id}", name="student_delete")
      */
     public function deleteStudent($id)
@@ -57,7 +63,10 @@ class StudentController extends AbstractController
         return $this->redirectToRoute('student_index');
     }
 
-    #[Route('/student/add', name: 'student_add')]
+    /**
+     * @IsGranted("ROLE_ADMIN")
+     * @Route("student/add", name="student_add")
+     */
     public function addStudentAction(Request $request){
         $student = new Student();
         $form = $this->createForm(StudentType::class, $student);
@@ -106,7 +115,10 @@ class StudentController extends AbstractController
 
     }
 
-    #[Route('student/edit/{id}', name: 'student_edit')]
+    /**
+     * @IsGranted("ROLE_STAFF")
+     * @Route("student/edit/{id}", name="student_edit")
+     */
     public function editStudentAction($id, Request $request){
         $student = $this
              -> getDoctrine() 

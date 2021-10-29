@@ -3,13 +3,17 @@
 {% block body %}
 <div class="container col-md-6 mt-3">
     <h3 class="text-success text-center text-capitalize">ADD</h3>
+    {% if is_granted('ROLE_ADMIN')%}
     <a class="btn btn-outline-success mt-2" href="{{ path('subject_add') }}">ADD SUBJECT</a>
-        <table class="table table-striped table-dark">
+    {% endif %}
+        <table class="table table-striped table-responsive-md btn-table">
         <thead>
             <tr>
                 <th>ID</th>
                 <th>Name</th>
+                {% if is_granted('ROLE_ADMIN')%}
                 <th>Menu</th>
+                {% endif %}
             </tr>
         </thead>
         <tbody>
@@ -18,11 +22,14 @@
                 <td>{{ subject.id }}</td>
                 <td>{{ subject.name }}</td>
                 <td>
-
-                    <a class="btn btn-info" href="{{ path('subject_edit', {'id': subject.id}) }}">EDIT</a>
-                    <a class="btn btn-warning" href="{{ path('subject_add', {'id': subject.id}) }}">ADD</a>
-                    <a class="btn btn-warning" href="{{ path('subject_delete', {'id': subject.id}) }}"
+                    {% if is_granted('ROLE_STAFF')%}
+                    <a class="btn btn-outline-dark" href="{{ path('subject_edit', {'id': subject.id}) }}">EDIT</a>
+                    {% endif %}
+                    {% if is_granted('ROLE_ADMIN')%}
+                    <a class="btn btn-outline-dark" href="{{ path('subject_add', {'id': subject.id}) }}">ADD</a>
+                    <a class="btn btn-outline-dark" href="{{ path('subject_delete', {'id': subject.id}) }}"
                     onclick="return confirm('Are you sure ????')">DELETE</a>
+                    {% endif %}
                 </td>
             </tr>
         {% endfor %} 

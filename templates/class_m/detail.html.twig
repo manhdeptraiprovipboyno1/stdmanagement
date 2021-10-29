@@ -19,10 +19,14 @@
 					<td>{{ class.name}}</td>
 					<td>{{ class.floor }}</td>
 					<td>
-						<a class="btn btn-info" href="{{ path('classM_edit', {'id': class.id}) }}">EDIT</a>
-						<a class="btn btn-warning" href="{{ path('classM_delete', {'id': class.id}) }}"
+						{% if is_granted('ROLE_STAFF')%}
+						<a class="btn btn-outline-dark" href="{{ path('classM_edit', {'id': class.id}) }}">EDIT</a>
+						{% endif %}
+						{% if is_granted('ROLE_ADMIN')%}
+						<a class="btn btn-outline-dark" href="{{ path('classM_delete', {'id': class.id}) }}"
                   onclick= "return confirm('Are you sure to delete this student ?')"
                   >DELETE</a>
+				  		{% endif %}
 					</td>
 				</tr>
 			</tbody>

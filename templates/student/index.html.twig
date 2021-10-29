@@ -1,17 +1,20 @@
-{% extends 'base1.html.twig' %}
+{% extends 'base.html.twig' %}
 
 {% block body %}
 <div class="container col-md-6 mt-3">
-    <h3 class="text-success text-center text-capitalize">STUDENT LIST</h3
+    <h3 class="text-success text-center text-capitalize">STUDENT LIST</h3>
+    {% if is_granted('ROLE_ADMIN')%}
      <a class="btn btn-outline-success mt-2" href="{{ path('student_add') }}">ADD STUDENT</a> 
-
+    {% endif %} 
  
         <table class="table table-striped text-center mt-2">
         <thead>
             <tr>
                 <th>ID</th>
                 <th>Name</th>
+                {% if is_granted('ROLE_ADMIN')%}
                 <th>Menu</th>
+                {% endif %} 
             </tr>
         </thead>
         <tbody>
@@ -20,11 +23,15 @@
                 <td>{{ student.id }}</td>
                 <td>{{ student.name }}</td>
                 <td>
-                    <a class="btn btn-primary" href="{{ path('student_detail', {'id': student.id}) }}">DETAIL</a>
-                    <a class="btn btn-info" href="{{ path('student_edit', {'id': student.id}) }}">EDIT</a>
-                    <a class="btn btn-warning" href="{{ path('student_delete', {'id': student.id}) }}"
+                    <a class="btn btn-outline-dark" href="{{ path('student_detail', {'id': student.id}) }}">DETAIL</a>
+                    {% if is_granted('ROLE_STAFF')%}
+                    <a class="btn btn-outline-dark" href="{{ path('student_edit', {'id': student.id}) }}">EDIT</a>
+                    {% endif %}
+                    {% if is_granted('ROLE_ADMIN')%}
+                    <a class="btn btn-outline-dark" href="{{ path('student_delete', {'id': student.id}) }}"
                     onclick="return confirm('Are you sure ????')"
                     >DELETE</a>
+                    {% endif %} 
                 </td>
             </tr>
         {% endfor %} 
