@@ -3,17 +3,15 @@
 {% block body %}
 <div class="container col-md-6 mt-3" style="font-family:Comic Sans MS">
     <h3 class="text-success text-center text-capitalize">CLASS LIST</h3>
-    {% if is_granted('ROLE_ADMIN')%}
+  
     <a class="btn btn-outline-success mt-2"  href="{{ path('classM_add') }}">ADD NEW CLASS</a>
-    {% endif %}
+    
         <table class="table table-striped text-center mt-2" style="font-family:Comic Sans MS">
         <thead>
             <tr>
                 <th>ID</th>
                 <th>Name</th>
-                {% if is_granted('ROLE_ADMIN')%}
                 <th>Menu</th>
-                {% endif %}
             </tr>
         </thead>
         <tbody>
@@ -23,14 +21,13 @@
                 <td>{{ class.name }}</td>
                 <td>
                     <a class="btn btn-outline-dark" href="{{ path('classM_detail', {'id': class.id}) }}">DETAIL</a>
-                   {% if is_granted('ROLE_STAFF')%}
+                   
                     <a class="btn btn-outline-dark" href="{{ path('classM_edit', {'id': class.id}) }}">EDIT</a>
-                    {% endif %}
-                    {% if is_granted('ROLE_ADMIN')%}
+                    
                     <a class="btn btn-outline-dark" href="{{ path('classM_delete', {'id': class.id}) }}"
                     onclick="return confirm('Are you sure ????')"
                     >DELETE</a>
-                    {% endif %}
+                   
                 </td>
             </tr>
         {% endfor %} 

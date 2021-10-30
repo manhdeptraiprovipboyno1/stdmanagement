@@ -12,9 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-/**
-* @IsGranted("ROLE_USER")
-*/
+
 
 class LecturerController extends AbstractController
 {
@@ -51,7 +49,7 @@ class LecturerController extends AbstractController
              }
         }
     /**
-     * @IsGranted("ROLE_ADMIN")
+    
      * @Route("lecturer/add", name="lecturer_add")
      */
     public function addLecturer(Request $request){
@@ -102,7 +100,7 @@ class LecturerController extends AbstractController
 
     }
     /**
-     * @IsGranted("ROLE_STAFF")
+     
      * @Route("lecturer/edit/{id}", name="lecturer_edit")
      */
     public function editLecturer($id, Request $request){
@@ -163,7 +161,7 @@ class LecturerController extends AbstractController
     }
 
     /**
-     * @IsGranted("ROLE_ADMIN")
+    
      * @Route("lecturer/delete/{id}", name="lecturer_delete")
      */
     public function deleteLecturer( $id) 

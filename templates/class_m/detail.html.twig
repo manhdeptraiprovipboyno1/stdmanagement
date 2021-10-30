@@ -10,6 +10,10 @@
 					<th>ID</th>
 					<th>Name</th>
 					<th>Floor</th>
+					<th>Lecturer</th>					
+                	<th>Student</th>
+					<th>Student count</th>
+					<th>Lecturer count</th>
 					<th>Menu</th>
 				</tr>
 			</thead>
@@ -19,17 +23,37 @@
 					<td>{{ class.name}}</td>
 					<td>{{ class.floor }}</td>
 					<td>
-						{% if is_granted('ROLE_STAFF')%}
+                	{% for c in class.lecturer %}
+						<a href="{{ path("lecturer_detail",{'id' : c.id}) }}" class="">
+                            {{c.name}}
+                            <br>
+                        </a>            	
+						<br/>
+                	{% endfor %}
+                	</td>
+					<td>
+						{% for s in class.student %}
+                        <a href="{{ path("student_detail",{'id' : s.id}) }}" class="">
+                            {{ s.name }}
+                            <br>
+                        </a>
+                    {% endfor %}
+					</td>
+					<td>{{ count }}</td>
+					<td>{{ countn }}</td>
+					<td>
+						
 						<a class="btn btn-outline-dark" href="{{ path('classM_edit', {'id': class.id}) }}">EDIT</a>
-						{% endif %}
-						{% if is_granted('ROLE_ADMIN')%}
+						
 						<a class="btn btn-outline-dark" href="{{ path('classM_delete', {'id': class.id}) }}"
                   onclick= "return confirm('Are you sure to delete this student ?')"
                   >DELETE</a>
-				  		{% endif %}
+				  		
 					</td>
 				</tr>
 			</tbody>
 		</table>
+
+	
 	</div>
 {% endblock %}

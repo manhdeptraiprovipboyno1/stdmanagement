@@ -13,9 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-/**
-* @IsGranted("ROLE_USER")
-*/
+
 
 class StudentController extends AbstractController
 {
@@ -46,7 +44,7 @@ class StudentController extends AbstractController
     }
 
     /**
-     * @IsGranted("ROLE_ADMIN")
+     
      * @Route("student/delete/{id}", name="student_delete")
      */
     public function deleteStudent($id)
@@ -64,7 +62,6 @@ class StudentController extends AbstractController
     }
 
     /**
-     * @IsGranted("ROLE_ADMIN")
      * @Route("student/add", name="student_add")
      */
     public function addStudentAction(Request $request){
@@ -116,7 +113,6 @@ class StudentController extends AbstractController
     }
 
     /**
-     * @IsGranted("ROLE_STAFF")
      * @Route("student/edit/{id}", name="student_edit")
      */
     public function editStudentAction($id, Request $request){
